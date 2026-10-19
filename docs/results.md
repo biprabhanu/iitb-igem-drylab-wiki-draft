@@ -10,8 +10,8 @@ Every result below is a statement about a model and has **not been validated aga
 In the computer models, yeast can already make pure myristic acid, but only by shortening a longer fatty acid, and no gene deletion tested improved on the unedited strain. The team's own ranking method did not pass its checks. Nothing here has been tested in a laboratory. **[computed]**
 </div>
 
-1. **Wild-type yeast produced pure C14:0 in the model, at a linear growth cost.** No knockout set improved on wild type. [Details](metabolism)
-2. **The model formed C14:0 only by shortening C16:0 through β-oxidation.** *POX1* catalyses the committed step. [Details](metabolism)
+1. **Wild-type yeast produced C14:0 in the model, at a growth cost that is linear above half of maximum growth.** No knockout set improved on wild type, which follows in large part from the method: a deletion only removes flux space, so at a fixed growth floor a mutant can only match or fall below the unmodified strain. [Details](metabolism)
+2. **The model reached C14:0 only through peroxisomal β-oxidation**, chiefly by shortening C16:0. *POX1* catalyses the committed step, and both routes in the network depend on it. [Details](metabolism)
 3. **A fatty acid synthase (FAS) early-release reaction raised C14:0 export by 2.6 %.** The limit was NADPH, not chain supply. [Details](bridge)
 4. **The ScFAS2 residue equivalent to the *Yarrowia* chain-length residue is V1254.** M1251 was excluded from mutagenesis; the effect of V1254W in *S. cerevisiae* is an assumption. [Details](sequence)
 5. **The scoring function did not satisfy its own checks.** The best knockout set exceeded the unedited strain by 0.010 %, and the tool issued no proposals. [Details](trust)
@@ -23,41 +23,45 @@ In the computer models, yeast can already make pure myristic acid, but only by s
 <div class="brief" markdown="1">
 <div class="brief-h">In brief</div>
 
-In the model, output of pure myristic acid falls in a straight line as more growth is required, from 0.211 at 10 % of normal growth to 0.024 at 90 % (mmol per gram dry weight per hour). No gene deletion improved on this. **[computed]**
+In the model, output of myristic acid falls as more growth is required, from 0.227 at 10 % of maximum growth to 0.025 at 90 % (mmol per gram dry weight per hour), and is zero at maximum growth. No gene deletion improved on this. **[computed]**
 </div>
 
-Table 1 gives the maximum C14:0 export in Yeast9 when growth is held at a fraction of the wild-type rate (analysis A).
+Table 1 gives the maximum free-myristate export under a minimum growth requirement, from the FBA report run (Yeast-GEM v9.1.1, BY4742, glucose uptake 1.1 mmol gDW⁻¹ h⁻¹). The quantity is free C14:0 export from the native β-oxidation-dependent routes, not methyl myristate and not a measured titre.
 
 <div class="key" markdown="1">
 
-*Table 1. Maximum C14:0 export in Yeast9 at fixed fractions of the wild-type growth rate (analysis A). Model-implied; not validated against wet-lab data.*
+*Table 1. Maximum free-myristate export (mmol gDW⁻¹ h⁻¹) under a minimum growth requirement, FBA report run. Primary scenario: ligases forward-only. Sensitivity: ligase bounds as shipped. Model-implied; not validated against wet-lab data.*
 
-| Growth held at | C14:0 export (mmol gDW⁻¹ h⁻¹) | Purity |
+| Minimum growth | Primary: forward-only | Sensitivity: shipped bounds |
 |---|---|---|
-| 10 % | 0.211 | 100 % |
-| 25 % | 0.178 | 100 % |
-| 50 % | 0.119 | 100 % |
-| 75 % | 0.060 | 100 % |
-| 90 % | 0.024 | 100 % |
+| none | 0.25001 | 0.25692 |
+| 10 % of maximum | 0.22649 | 0.23274 |
+| 25 % | 0.19036 | 0.19647 |
+| 50 % | 0.12719 | 0.13156 |
+| 75 % | 0.06359 | 0.06578 |
+| 90 % | 0.02544 | 0.02631 |
+| exactly maximum growth | 0 | 0 |
 
 </div>
 
+The row without a growth requirement is a zero-growth limit and is not available to a growing culture. The trade-off is piecewise linear, exactly linear above 50 % of maximum growth.
+
 <figure class="figure my-4">
   <img src="/static/figures/feasibility_frontier.png" class="figure-img img-fluid" alt="Maximum C14 export falls linearly from 0.211 at 10 percent growth to 0.024 at 90 percent; wild type and two knockout sets overlap and POX1 sets are at zero.">
-  <figcaption class="figure-caption"><strong>Figure 1.</strong> Maximum C14 export against the growth rate held (data of Table 1). No knockout set exceeded wild type; sets containing <em>POX1</em> gave exactly zero. Model-implied; not validated against wet-lab data.</figcaption>
+  <figcaption class="figure-caption"><strong>Figure 1.</strong> Maximum C14 export against the growth rate held. No knockout set exceeded wild type; sets containing <em>POX1</em> gave exactly zero. The plot shows the pre-flight run and not the report values of Table 1; redrawing it is <strong>[pending]</strong>. Model-implied; not validated against wet-lab data.</figcaption>
 </figure>
 
-A second analysis under different conditions (glucose uptake 1.1 mmol gDW⁻¹ h⁻¹, strain BY4742) gave values about 6–7 % higher with the same shape. The conditions are listed in [Model: Data](model#m3).
+An earlier, independently written pipeline (the pre-flight run: prototroph, glucose uptake 1.0 mmol gDW⁻¹ h⁻¹) computed the same quantity under different conditions and gave values 6–7 % lower with the same shape. That difference is fully accounted for by the glucose uptake and the amino-acid supplements, so the two runs cross-check each other; the arithmetic is on the [Metabolism](metabolism#pre-flight-cross-check) page. The pre-flight run is also the only source for the finding that the exported fatty acid is 100 % C14:0. The conditions of both are listed in [Model: Data](model#m3).
 
 ## Metabolic route to C14:0 {#2-how-c140-is-made-in-the-model}
 
 <div class="brief" markdown="1">
 <div class="brief-h">In brief</div>
 
-The model makes myristic acid by one route only: chopping two carbons off palmitic acid, with the gene *POX1* controlling the key step. Deleting *POX1* removed all output. **[computed]**
+The model makes myristic acid by breaking down longer fatty acids, chiefly by chopping two carbons off palmitic acid, with the gene *POX1* controlling the key step. A second, longer route exists and is used only when the first is blocked. Deleting *POX1* removed all output. **[computed]**
 </div>
 
-The model contained a single unbranched route: C16:0 → hexadecanoyl-CoA → acyl-CoA oxidase (*POX1*) → enoyl-CoA hydratase → myristoyl-CoA → free C14:0 → export. Deletion of *POX1* gave exactly zero. Loopless flux balance analysis (FBA) and a forced one-way ligase changed the result by at most 2 %.
+The route that carried the flux at every optimum examined was a single unbranched path: peroxisomal C16:0-CoA → acyl-CoA oxidase (*POX1*) → 2-enoyl-CoA hydratase and 3-hydroxyacyl-CoA dehydrogenase (*FOX2*) → thiolase (*POT1*) → myristoyl-CoA → free C14:0 → export. The network contains one further route, through degradation of C18:1 to C12 and re-elongation in the endoplasmic reticulum, which the model uses when the thiolase step is blocked; blocking both abolishes C14 export. Both routes depend on β-oxidation, so deletion of *POX1* gave exactly zero. Loopless FBA returned the same optimum, and forcing the fatty-acid-CoA ligases one-way lowered export by 2 % in the pre-flight run and by 2.7–3.3 % in the report run. Release of free myristate is by the *TES1* thioesterase in that primary scenario; with the ligase bounds as shipped the model instead runs the C14 ligase in reverse, which is thermodynamically questionable.
 
 ## Changes to the plan {#3-what-changed-in-our-plan}
 
@@ -159,10 +163,11 @@ Figure A summarises the status of each step.
   <figcaption class="figure-caption"><strong>Figure A.</strong> Validation status of each step: what rests on literature, what was computed here, what is a hypothesis and what is pending. No step has wet-lab data. Entries are taken from the step pages and follow their status labels. Model-implied; not validated against wet-lab data.</figcaption>
 </figure>
 
-- No wet-lab data. No molecular dynamics. No formal proximity cut-off or cross-model consensus.
+- No functional wet-lab data. The construct has been sequence-verified and its integration confirmed by junction PCR; the C14 phenotype has not been measured, so nothing on this site is validated against a measured product. No molecular dynamics. No formal proximity cut-off or cross-model consensus.
 - The V1254W route to C14 in *S. cerevisiae* is an assumption.
-- The knockout screen has not been repeated with the early-release reaction, and the growth penalty has not been computed.
-- The two FBA analyses differ in conditions and are being reconciled.
+- The knockout screen has not been repeated with the early-release reaction. Growth penalties have been computed for the 37 curated interventions but not for the genome-wide screen.
+- The two FBA analyses differ in conditions; the 6–7 % gap is accounted for by glucose uptake and the auxotrophic supplements.
+- The genome-scale model cannot represent a fatty acid synthase that terminates at C14, so it cannot test the central hypothesis of the project either way.
 
 ## Next steps {#next-steps}
 
