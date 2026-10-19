@@ -2,6 +2,10 @@
 Part of the [model](model). Status labels: **[computed]** produced in this study; **[literature]** taken from a published source; **[hypothesis]** reasoned but untested; **[pending]** not completed. **None of the values on this page has been validated against wet-lab data.**
 </div>
 
+<div class="alert alert-warning" role="alert" markdown="1">
+**This page is a separate hypothetical model extension.** It is not part of the native-pathway FBA results reported on the [Metabolism](metabolism) page. Those results use the model as released, with no added reaction, and do not simulate FAS2 V1254W. Every number below is the output of a model into which a C14-releasing reaction was inserted by assumption, under that exercise's own conditions (Yeast9, glucose uptake 1.0 mmol gDW⁻¹ h⁻¹, NGAM 0.7). **A reaction added by assumption cannot be evidence that the real mutation has the intended effect.** The native-pathway results are not awaiting this extension; they stand on their own.
+</div>
+
 ## Step 3. Representation of the mutation in a metabolic model {#bridge}
 
 <div class="brief" markdown="1">
@@ -54,6 +58,12 @@ The added reaction is a modelling hypothesis about what V1254W does, and the lat
 
 <div class="alert alert-secondary" role="alert" markdown="1">
 **Caveat.** The reaction is a modelling hypothesis about the effect of V1254W and inherits assumption A1. The frontier and knockout screen of Step 4 were run on the model without the reaction; repetition with the reaction is **[pending]**.
+</div>
+
+<div class="alert alert-warning" role="alert" markdown="1">
+**Unresolved within the dry lab: whether this reaction should exist at all.** The team's genome-scale modelling report reaches the opposite conclusion on the same question and declines to implement such a reaction, for three stated reasons. First, no measured product spectrum for V1254W exists, and a stoichiometric reaction fixes how much C14 is made per acetyl-CoA but cannot encode what fraction of FAS turnovers terminate at C14; writing a balanced equation is arithmetic and not evidence of enzyme specificity. Second, the published precedents do not transfer, since the verified reports of engineered FAS chain-length control give C6/C8 products in *S. cerevisiae* FAS[@gajewski2017|C6/C8 products from KS-domain substitutions] or work on a metazoan FAS in a different host,[@ludig2026|C8–C14 from an engineered metazoan FAS in *Ogataea polymorpha*] so any coefficient chosen here would be invented. Third, Yeast9 represents FAS as two whole-pathway reactions with no acyl intermediates in the cytosol, so representing the partitioning between chain lengths would require re-expanding the FAS cycle with a release step at each length, and that would still need measured release ratios. On that reading, adding the reaction amounts to assuming the project's central hypothesis and then reporting the assumption as a result.
+
+Both positions are recorded here deliberately. The +2.6 % figure below is reported as the effect of a reaction the team chose to add and is not evidence that V1254W works; the model cannot decide that either way. Which treatment the wiki should present as the team's position is **[pending]** a decision by the dry lab.
 </div>
 
 **Gaps and naming in Yeast9 identified during the work** (from the team's model comparison). Yeast9 was chosen over Yeast8 because it represents more of the required pathways. The following genes were flagged as absent: *PEX11* (β-oxidation), *ATR1* and *CYP94C1* (ω-oxidation). *FOX1* is present as *POX1*, a naming mismatch for the same function. It is hypothesised, but has not been tested, that omission of the two ω-oxidation genes has little effect on yield. **[pending]**

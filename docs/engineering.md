@@ -57,10 +57,10 @@ Five lessons followed: the planned deletion strategy was reversed, no ranked lis
 <div class="brief" markdown="1">
 <div class="brief-h">In brief</div>
 
-After the new reaction was added, myristic acid output rose by 2.6 % and the limit moved to NADPH. The next cycle repeats the analyses with the reaction and compares the model with published results. **[pending]**
+The native-pathway capacity, route, robustness, deletion and intervention analyses are now complete in the current report, and growth penalties have been computed for the curated interventions. What remains open is whether the mutation does what it is supposed to do, which the model cannot answer. **[pending]**
 </div>
 
-The early-release reaction was added and the analysis was repeated: C14:0 export increased by 2.6 % and the limit moved to NADPH. The next cycle repeats the frontier and knockout screen with the reaction, computes growth penalties and tests the model against published literature outcomes. See [Model](model) and [Results](results).
+In the current report the native-pathway production capacity, the route audit, the robustness checks, the genome-wide deletion screen and the intervention screen are complete, and growth penalties have been computed for the 37 curated interventions. Repetition of the frontier and knockout screen **with the early-release reaction** remains outstanding if the team still intends it; the report deliberately did not add that reaction, for the reasons given on the [Bridge](bridge) page. The unresolved question is whether FAS2 V1254W changes chain-length specificity in *S. cerevisiae* at all. The model cannot represent that substitution, so only experimental product profiling can test it. See [Model](model) and [Results](results).
 
 <div class="alert alert-secondary" role="alert" markdown="1">
 **Scope.** This cycle is computational. The Test stage is model against model and model against literature; no wet-lab data closed the loop.
