@@ -331,5 +331,27 @@
   "title": "PubChem compound summary for CID 8042, isopropyl myristate (melting point approximately 3 °C)",
   "url": "https://pubchem.ncbi.nlm.nih.gov/compound/8042",
   "accessed": "2026-10-16"
+ },
+ {
+  "key": "vanhoek1998",
+  "type": "paper",
+  "authors": "Van Hoek P, Van Dijken JP, Pronk JT",
+  "year": 1998,
+  "title": "Effect of specific growth rate on fermentative capacity of baker's yeast",
+  "journal": "Applied and Environmental Microbiology",
+  "volume": 64,
+  "pages": "4226-4233",
+  "doi": "10.1128/AEM.64.11.4226-4233.1998"
+ },
+ {
+  "key": "ludig2026",
+  "type": "paper",
+  "authors": "Ludig DL, et al.",
+  "year": 2026,
+  "title": "Engineering metazoan fatty acid synthase to control chain length applied in yeast",
+  "journal": "Nature Chemical Biology",
+  "volume": 22,
+  "pages": "1078-1086",
+  "doi": "10.1038/s41589-025-02105-w"
  }
 ]
