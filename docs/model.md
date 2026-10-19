@@ -13,7 +13,8 @@ The project asks whether baker's yeast could be engineered to make myristic acid
 
 - The work was organised in six steps, each passing one result to the next: sequence → fatty acid synthase (FAS) interaction → bridge → metabolism → trust → process (figure on the [home page](./)).
 - **Central assumption:** a point mutation in *Saccharomyces cerevisiae* FAS2 (V1254W, by analogy with *Yarrowia lipolytica* I1220W) can release C14 early. This is a **[hypothesis]** and has not been established.
-- **Main findings:** the model forms C14:0 only by shortening C16:0 through β-oxidation; no knockout set exceeded wild type; an early-release reaction increased C14 export by only 2.6 % and is limited by NADPH; the team's scoring setup did not satisfy its own checks.
+- **Scope limit, stated once:** Yeast-GEM terminates fatty acid synthase at C16 and C18, so it has no reaction for early C14 release and cannot represent the property V1254W is meant to change. A positive C14 flux in the model is not evidence that the mutation works.
+- **Main findings:** the model reaches C14:0 only through peroxisomal β-oxidation, chiefly by shortening C16:0; no knockout set exceeded wild type, which follows in large part from the method, since a deletion can only remove flux space; an early-release reaction increased C14 export by only 2.6 % and is limited by NADPH; the team's scoring setup did not satisfy its own checks.
 - **Navigation:** [Data](#m3) · [Assumptions](#m4) · [1 Sequence](sequence) · [2 FAS interaction](fas-interaction) · [3 Bridge](bridge) · [4 Metabolism](metabolism) · [5 Trust](trust) · [6 Process](process) · [Effect on design](#m6) · [Limits](#m7) · [Reproducibility](#m8) · [References](#references). Further pages under Model: [Engineering](engineering), [Results](results), [Life Cycle Assessment](life-cycle-assessment).
 
 ## Approach and outputs of each step {#m1}
@@ -46,7 +47,7 @@ Each step answers one question with one method: a sequence comparison, a protein
 <div class="brief" markdown="1">
 <div class="brief-h">In brief</div>
 
-Protein structures come from public databases, and the metabolic model is the community yeast model Yeast9. Two flux analyses were run under slightly different conditions, so their numbers differ by 6–7 %, and this has not yet been reconciled. **[pending]**
+Protein structures come from public databases, and the metabolic model is the community yeast model Yeast9. Two flux analyses were run under slightly different conditions, so their numbers differ by 6–7 %. The difference is now accounted for by the glucose uptake and the auxotrophic supplements. **[computed]**
 </div>
 
 ### Structures **[literature]**
@@ -72,7 +73,7 @@ Two FBA analyses exist. They use different conditions, so their numbers differ b
 
 *Table 3. Conditions of the two FBA analyses.*
 
-| | Analysis A (pre-flight / repository) | Analysis B (FBA report) |
+| | Pre-flight run (repository tool) | Report run (FBA report) |
 |---|---|---|
 | Model | Yeast9 (`data/models/yeast-GEM.xml`) | Yeast-GEM v9.1.1: 4,105 reactions, 2,748 metabolites, 1,143 genes |
 | Glucose uptake | 1.0 mmol gDW⁻¹ h⁻¹ | 1.1 mmol gDW⁻¹ h⁻¹ |
@@ -85,8 +86,10 @@ Two FBA analyses exist. They use different conditions, so their numbers differ b
 </div>
 
 <div class="alert alert-secondary" role="alert" markdown="1">
-**[pending]** The two analyses remain to be reconciled: the exact model version in each (a team comment names v9.0.2 for one run) and the reason for the growth-rate difference must be confirmed. Glucose uptake differs (1.0 against 1.1 mmol gDW⁻¹ h⁻¹), which probably accounts for most of the difference.
+**[computed]** The growth-rate difference between the two runs is accounted for in two steps. Scaling the pre-flight wild-type growth of 0.0811 h⁻¹ from a glucose uptake of 1.0 to 1.1 mmol gDW⁻¹ h⁻¹ gives 0.0892 h⁻¹, which is within 0.3 % of the 0.0895 h⁻¹ that the prototrophic model of the report run reaches at that uptake. The remaining 9.1 % to the 0.09768 h⁻¹ of the report run comes from the His, Leu and Lys supplements of BY4742, which donate carbon that a per-glucose yield does not count. Glucose uptake and supplementation together therefore explain the 6–7 % gap in export, and no unexplained discrepancy remains. The two runs are a cross-check on each other, not competing results. **[pending]** The exact model version used in the pre-flight run is still to be confirmed (a team comment names v9.0.2); the report run is Yeast-GEM v9.1.1, whose file checksum is recorded in the FBA report.
 </div>
+
+**Conditions not shown in Table 3.** In the report run oxygen is unlimited and does not bind at the optimum; non-growth maintenance stays at the shipped 0.7 mmol ATP gDW⁻¹ h⁻¹; and uptake of His, Leu and Lys is capped at the model's own biomass requirement multiplied by the growth rate. That cap is a stated modelling assumption and not a correction: uptake of the three supplements by this strain was not measured. Without it the model takes up 10.8 mmol gDW⁻¹ h⁻¹ of leucine and burns it as a carbon and energy source, raising maximum growth to 0.159 h⁻¹ and export at the 50 % floor to 0.18715 mmol gDW⁻¹ h⁻¹. The capped and uncapped settings bracket the model's behaviour, and where the real strain falls between them is unknown.
 
 ### Literature inputs **[literature]**
 
@@ -131,7 +134,7 @@ Eleven assumptions underlie the results. The most important, A1, is that the mut
 The models changed the plan in six ways. A plan to reduce fat breakdown was dropped, some residues were ruled out, and no ranked list of gene deletions was sent to the laboratory. Choosing between two candidate coolants is still open. **[computed]**
 </div>
 
-1. **The plan to knock down degradation in order to preserve C14:0 was dropped.** The model indicates that degradation is the only C14:0 source in the absence of early release, and deletion of *POX1* gave zero. The rule against sending degradation knockdowns to the wet lab in a first iteration therefore has a mechanistic basis.
+1. **The plan to knock down degradation in order to preserve C14:0 was dropped.** The model indicates that degradation is the only C14:0 source in the absence of early release, and deletion of *POX1* gave zero. The rule against sending degradation knockdowns to the wet lab in a first iteration therefore has a mechanistic basis. This conclusion is a property of the model's structure, however, and not a prediction about a strain whose FAS really did release C14: there β-oxidation would act mainly as a sink. Published work on an engineered metazoan FAS in *Ogataea polymorpha* deleted *POX1* and then reintroduced a limited β-oxidation cascade in order to shorten long-chain into medium-chain fatty acids, treating β-oxidation as a tunable lever on chain length rather than purely as a loss.[@ludig2026|POX1 deletion with a reintroduced β-oxidation cascade used to tune chain length] Degradation knockouts are therefore best regarded as experiments that can distinguish the two possible origins of C14, which is the use proposed in the FBA report.
 2. **An FAS early-release reaction was added as a documented model modification**, and its effect was measured: +2.6 %, NADPH-limited. This indicates where the model places the limit (cofactors, not chain supply). Acting on this result is **[pending]**.
 3. **M1251, C1305, F1646, G1250 and K1413–K1423 were excluded from mutagenesis**; V1254W was retained as the lead candidate, with M1260 secondary.
 4. **No ranked knockout list was passed to the wet lab**, because checks D1 and D2 failed on the team's own scoring. The tool withheld proposals, and this outcome was accepted.
@@ -152,16 +155,20 @@ There are no laboratory data of any kind, so every number is a statement about a
 
 | Limitation | Effect on conclusions | Status |
 |---|---|---|
-| No wet-lab data of any kind | Every number is a statement about a model | Not available to the team |
+| No functional wet-lab data | Every number is a statement about a model. The construct has been sequence-verified and its integration confirmed by junction PCR, but that is construct verification, not functional validation: the C14 phenotype has not been measured | **[pending]** measurement |
 | The V1254W route to C14 in *S. cerevisiae* is an assumption | All downstream numbers are conditional | **[hypothesis]** |
+| The provenance of the V1254W proposal is not recorded | The alignment of Step 1 establishes that V1254 corresponds to the *Yarrowia* chain-length residue, which is a statement about residue correspondence and not about the biochemical effect of substituting it | **[pending]** record whether the substitution came from a publication, an in-house structure-guided prediction or elsewhere |
 | The M1251 gate explanation is untested | The basis for excluding M1251 is a hypothesis; *S. cerevisiae* strains with G1250S and M1251W substitutions have been reported[@gajewski2017|G1250S-M1251W strain] and may bear on it | **[pending]** assessment against the paper |
 | No molecular dynamics or relaxed ligand-bound pocket | Pocket geometry is rigid-receptor | Large-scale; a short minimisation is feasible |
 | No formal proximity cut-off; no consensus across models | The candidate set rests on literature precedent plus inspection | **[pending]** |
 | Conservation and phylogenetic analysis | Further mutation sites are blocked on it | **[pending]** |
-| Growth penalty not computed | The cost of each intervention is not quantified | **[pending]** |
+| Growth penalty computed for the 37 curated interventions only | The cost of the genome-wide and combination candidates is not quantified | **[pending]** in part |
 | Knockout screen run without the early-release reaction | Repetition required | **[pending]** |
-| Two FBA analyses use different conditions | Numbers differ by 6–7 % | **[pending]** reconciliation |
+| Two runs use different conditions | Numbers differ by 6–7 %, accounted for by glucose uptake and supplements | Reconciled; model version of the pre-flight run **[pending]** |
 | FBA yields an upper bound, not a probability | No probability of success is reported anywhere | By construction |
+| A deletion screen can only remove flux space | No intervention can raise export above the unmodified strain at a fixed growth floor, so the negative screen result is in large part methodological | By construction |
+| The model cannot represent a FAS that terminates at C14 | The central hypothesis cannot be tested in it; a positive C14 flux here is not evidence that V1254W works | By construction |
+| The plausibility check against chemostat data under-predicts growth by 5–11 % | Two of four points fall outside the ±10 % criterion, and the strain differs from the one modelled | Reported, not resolved |
 | Free myristate modelled, not methyl myristate | Coolant titre is not predicted | By construction |
 | The RL agent is a simple linear Q-learner; benchmark on a synthetic landscape | Shows that this agent was outperformed, not that RL cannot work | Stated |
 | LCA not critically reviewed; placeholders remain | Not for public comparative claims | See Life Cycle Assessment |
@@ -185,6 +192,7 @@ git clone <repository>
 cd <repository>
 pip install -r requirements.txt
 python3 examples/run_feasibility.py     # prints: Wild-type growth: 0.081100 /h ... Verdict: SURVIVES
+                                        # (pre-flight run conditions: prototroph, glucose uptake 1.0)
 python3 examples/run_diagnostics.py     # prints: VERDICT: NOT USABLE, *** NO PROPOSALS ISSUED ***
 ```
 
